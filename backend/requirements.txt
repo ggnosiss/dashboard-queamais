@@ -1,0 +1,14 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+pydantic==2.10.3
+pydantic-settings==2.6.1
+sqlalchemy==2.0.36
+asyncpg==0.30.0
+aiosqlite==0.20.0
+httpx==0.28.0
+apscheduler==3.10.4
+facebook-business==21.0.4
+google-ads==25.1.0
+google-analytics-data==0.18.13
+google-auth-oauthlib==1.2.1
+python-dotenv==1.0.1
