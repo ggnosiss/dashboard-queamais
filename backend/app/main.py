@@ -3,9 +3,10 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import create_tables, AsyncSessionLocal
-from app.seed import seed_establishments
+from app.seed import seed_establishments, seed_admin_user
 from app.scheduler import setup_scheduler
 from app.routers import establishments, erp, ads, dashboard
+from app.routers import auth as auth_router
 
 
 @asynccontextmanager
@@ -14,6 +15,7 @@ async def lifespan(app: FastAPI):
     await create_tables()
     async with AsyncSessionLocal() as db:
         await seed_establishments(db)
+        await seed_admin_user(db)
     setup_scheduler(app)
     yield
     # Shutdown — nada a limpar por ora
@@ -32,6 +34,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router.router)
 app.include_router(establishments.router)
 app.include_router(erp.router)
 app.include_router(ads.router)

@@ -1,7 +1,9 @@
-"""Popula os 16 estabelecimentos no banco na primeira execução."""
+"""Popula os 16 estabelecimentos e o usuário admin padrão na primeira execução."""
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.models.establishment import Establishment
+from app.models.user import User
+from app.services.auth_service import hash_password
 
 ESTABLISHMENTS = [
     (102, "GCBC", "Guacamole Balneário Camboriú", "Guacamole"),
@@ -39,3 +41,18 @@ async def seed_establishments(db: AsyncSession) -> None:
         print(f"[seed] {len(new_records)} estabelecimentos inseridos.")
     else:
         print("[seed] Estabelecimentos já cadastrados, nada a fazer.")
+
+
+async def seed_admin_user(db: AsyncSession) -> None:
+    result = await db.execute(select(User).where(User.email == "admin@queamais.com.br"))
+    if result.scalar_one_or_none():
+        return
+    admin = User(
+        name="Administrador",
+        email="admin@queamais.com.br",
+        password_hash=hash_password("queamais@2026"),
+        role="admin",
+    )
+    db.add(admin)
+    await db.commit()
+    print("[seed] Usuário admin criado: admin@queamais.com.br / queamais@2026")

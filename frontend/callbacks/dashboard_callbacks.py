@@ -11,8 +11,12 @@ from components.trend_chart import build_trend_chart
 from components.ranking_table import build_ranking_table
 
 API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-API_KEY = os.getenv("API_KEY", "change-me-before-deploy")
-HEADERS = {"X-API-Key": API_KEY}
+
+
+def _headers(token: str | None) -> dict:
+    if token:
+        return {"Authorization": f"Bearer {token}"}
+    return {}
 
 
 def _fmt_brl(v) -> str:
@@ -21,7 +25,7 @@ def _fmt_brl(v) -> str:
     return f"R$ {float(v):,.0f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
 
-def _fetch_dashboard(establishment_ids, brands, start_date, end_date) -> dict | None:
+def _fetch_dashboard(establishment_ids, brands, start_date, end_date, token=None) -> dict | None:
     params = {"start_date": start_date, "end_date": end_date, "erp_months": 1}
     if establishment_ids:
         params["establishment_ids"] = establishment_ids
@@ -30,7 +34,7 @@ def _fetch_dashboard(establishment_ids, brands, start_date, end_date) -> dict | 
     try:
         r = requests.get(
             f"{API_URL}/api/dashboard/combined",
-            headers=HEADERS,
+            headers=_headers(token),
             params=params,
             timeout=15,
         )
@@ -50,11 +54,12 @@ def register_dashboard_callbacks(app):
         Input("establishment-filter", "value"),
         Input("brand-filter", "value"),
         Input("auto-refresh", "n_intervals"),
+        State("auth-token", "data"),
     )
-    def fetch_data(start_date, end_date, establishment_ids, brands, _):
-        if not start_date or not end_date:
+    def fetch_data(start_date, end_date, establishment_ids, brands, _, token):
+        if not start_date or not end_date or not token:
             return None
-        return _fetch_dashboard(establishment_ids or [], brands or [], start_date, end_date)
+        return _fetch_dashboard(establishment_ids or [], brands or [], start_date, end_date, token)
 
     @app.callback(
         Output("kpi-ads-row", "children"),

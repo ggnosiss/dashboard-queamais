@@ -5,13 +5,15 @@ import requests
 import os
 
 API_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
-API_KEY = os.getenv("API_KEY", "change-me-before-deploy")
-HEADERS = {"X-API-Key": API_KEY}
 
 
-def _fetch_establishments() -> list[dict]:
+def _fetch_establishments(token: str) -> list[dict]:
     try:
-        r = requests.get(f"{API_URL}/api/establishments/", headers=HEADERS, timeout=5)
+        r = requests.get(
+            f"{API_URL}/api/establishments/",
+            headers={"Authorization": f"Bearer {token}"},
+            timeout=5,
+        )
         r.raise_for_status()
         return r.json()
     except Exception:
@@ -23,9 +25,12 @@ def register_filter_callbacks(app):
     @app.callback(
         Output("establishments-list", "data"),
         Input("auto-refresh", "n_intervals"),
+        State("auth-token", "data"),
     )
-    def load_establishments(_):
-        return _fetch_establishments()
+    def load_establishments(_, token):
+        if not token:
+            return []
+        return _fetch_establishments(token)
 
     @app.callback(
         Output("brand-filter", "options"),

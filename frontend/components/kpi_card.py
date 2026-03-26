@@ -1,12 +1,22 @@
-"""Componente reutilizável de KPI card."""
+"""KPI card glassmorphism com acento colorido, delta e estado locked."""
 from dash import html
 
 
 BRAND_COLORS = {
-    "Guacamole": "#2E7D32",
-    "Guacamole Taqueria": "#43A047",
-    "Didge": "#1565C0",
-    "Híbrida": "#E65100",
+    "Guacamole": "#22c55e",
+    "Guacamole Taqueria": "#16a34a",
+    "Didge": "#3b82f6",
+    "Híbrida": "#f59e0b",
+}
+
+ACCENT_COLORS = {
+    "blue":   "#3b82f6",
+    "green":  "#22c55e",
+    "red":    "#ef4444",
+    "amber":  "#f59e0b",
+    "purple": "#a855f7",
+    "cyan":   "#06b6d4",
+    "orange": "#f97316",
 }
 
 
@@ -14,39 +24,45 @@ def kpi_card(
     title: str,
     value: str,
     subtitle: str = "",
-    color: str = "#1E88E5",
+    color: str = "#3b82f6",
     locked: bool = False,
-    icon: str = "",
+    delta: str | None = None,       # ex: "+12%" ou "-3.2%"
+    delta_positive: bool | None = None,  # True=verde, False=vermelho, None=neutro
 ) -> html.Div:
-    lock_badge = (
-        html.Span("🔒 Em breve", style={"fontSize": "10px", "color": "#888", "marginLeft": "6px"})
-        if locked
-        else None
-    )
+
+    # Classe de delta
+    if delta is not None:
+        if delta_positive is True:
+            delta_class = "kpi-delta up"
+            delta_arrow = "↑"
+        elif delta_positive is False:
+            delta_class = "kpi-delta down"
+            delta_arrow = "↓"
+        else:
+            delta_class = "kpi-delta neutral"
+            delta_arrow = "→"
+        delta_el = html.Div(
+            [html.Span(delta_arrow), html.Span(f" {delta} vs período anterior")],
+            className=delta_class,
+        )
+    else:
+        delta_el = html.Div(subtitle, className="kpi-subtitle") if subtitle else None
+
+    card_class = "kpi-card locked" if locked else "kpi-card"
+
     return html.Div(
-        className="kpi-card",
-        style={
-            "background": "#1E1E2E" if not locked else "#14141F",
-            "border": f"1px solid {color}44",
-            "borderRadius": "8px",
-            "padding": "16px 20px",
-            "minWidth": "160px",
-            "flex": "1",
-            "opacity": "0.5" if locked else "1",
-        },
+        className=card_class,
+        style={"--card-accent": color},
         children=[
             html.Div(
-                style={"display": "flex", "alignItems": "center", "marginBottom": "4px"},
-                children=[
-                    html.Span(icon + " " if icon else "", style={"marginRight": "4px"}),
-                    html.Span(title, style={"fontSize": "12px", "color": "#aaa", "textTransform": "uppercase", "letterSpacing": "0.5px"}),
-                    lock_badge,
+                [
+                    html.Span(title, className="kpi-label"),
+                    html.Span(" 🔒", style={"fontSize": "9px", "color": "#444"}) if locked else None,
                 ],
+                className="kpi-label",
             ),
-            html.Div(
-                value,
-                style={"fontSize": "24px", "fontWeight": "700", "color": color if not locked else "#555"},
-            ),
-            html.Div(subtitle, style={"fontSize": "11px", "color": "#666", "marginTop": "2px"}),
+            html.Div(value if not locked else "—", className="kpi-value",
+                     style={"color": color if not locked else "#333"}),
+            delta_el,
         ],
     )

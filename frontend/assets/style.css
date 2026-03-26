@@ -1,0 +1,521 @@
+/* ============================================================
+   QUEAMAIS DASHBOARD — Design System Glassmorphism
+   ============================================================ */
+
+/* ---- Variáveis ------------------------------------------- */
+:root {
+  --glass-bg:       rgba(255, 255, 255, 0.04);
+  --glass-bg-hover: rgba(255, 255, 255, 0.07);
+  --glass-border:   rgba(255, 255, 255, 0.08);
+  --glass-border-hover: rgba(255, 255, 255, 0.18);
+  --glass-blur:     blur(16px);
+
+  --bg-base:        #080c10;
+  --bg-gradient:    radial-gradient(ellipse at 20% 10%, #0d1b2e 0%, #080c10 55%),
+                    radial-gradient(ellipse at 80% 80%, #0a1520 0%, transparent 50%);
+
+  --text-primary:   #eef2f7;
+  --text-secondary: #94a3b8;
+  --text-muted:     #4a5568;
+
+  --accent:         #3b82f6;
+  --accent-glow:    rgba(59, 130, 246, 0.25);
+  --accent-green:   #22c55e;
+  --accent-red:     #ef4444;
+  --accent-amber:   #f59e0b;
+  --accent-purple:  #a855f7;
+  --accent-cyan:    #06b6d4;
+
+  --radius-sm:      8px;
+  --radius:         12px;
+  --radius-lg:      16px;
+  --shadow:         0 8px 32px rgba(0, 0, 0, 0.45);
+  --shadow-sm:      0 2px 12px rgba(0, 0, 0, 0.3);
+
+  --font:           'Inter', -apple-system, sans-serif;
+}
+
+/* ---- Reset base ------------------------------------------ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Navbar ---------------------------------------------- */
+.navbar-glass {
+  background: rgba(8, 12, 16, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 28px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navbar-logo {
+  height: 28px;
+  width: auto;
+}
+
+.navbar-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.2px;
+}
+
+.navbar-subtitle {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-left: 4px;
+}
+
+.navbar-spacer { flex: 1; }
+
+.navbar-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.navbar-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.navbar-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(59, 130, 246, 0.2);
+  color: var(--accent);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.navbar-badge.admin {
+  background: rgba(168, 85, 247, 0.2);
+  color: var(--accent-purple);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-muted);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.btn-logout:hover {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+}
+
+/* ---- Glass Cards ----------------------------------------- */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+}
+
+.glass-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-1px);
+}
+
+/* ---- KPI Cards ------------------------------------------- */
+.kpi-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  min-width: 150px;
+  flex: 1;
+  transition: border-color 0.2s, transform 0.15s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--card-accent, var(--accent));
+  opacity: 0.6;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.kpi-card:hover {
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  transform: translateY(-2px);
+}
+
+.kpi-card.locked {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.kpi-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.kpi-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.kpi-delta {
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+.kpi-delta.up   { color: var(--accent-green); }
+.kpi-delta.down { color: var(--accent-red); }
+.kpi-delta.neutral { color: var(--text-muted); }
+
+.kpi-subtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+/* ---- Filters Bar ----------------------------------------- */
+.filters-bar {
+  padding: 14px 28px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(8, 12, 16, 0.3);
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+/* ---- Date shortcut buttons ------------------------------- */
+.date-shortcut {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  border-radius: var(--radius-sm);
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+}
+.date-shortcut:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.date-shortcut.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* ---- Section headers ------------------------------------- */
+.section-header {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+/* ---- Sync button ----------------------------------------- */
+.btn-sync {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 7px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--font);
+  white-space: nowrap;
+}
+.btn-sync:hover {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--accent);
+}
+
+/* ---- Dropdown customization ------------------------------ */
+.dark-dropdown .Select-control,
+.dark-dropdown .Select-menu-outer {
+  background: rgba(8, 12, 16, 0.8) !important;
+  border-color: var(--glass-border) !important;
+  color: var(--text-primary) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.dark-dropdown .Select-placeholder,
+.dark-dropdown .Select-value-label {
+  color: var(--text-secondary) !important;
+}
+
+/* ---- Skeleton loading ------------------------------------ */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.03) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.03) 75%
+  );
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* ---- Ranking table --------------------------------------- */
+.ranking-table { overflow-x: auto; }
+
+.ag-theme-alpine-dark {
+  --ag-background-color: transparent !important;
+  --ag-odd-row-background-color: rgba(255,255,255,0.02) !important;
+  --ag-header-background-color: rgba(255,255,255,0.04) !important;
+  --ag-border-color: var(--glass-border) !important;
+  --ag-row-hover-color: rgba(59,130,246,0.08) !important;
+  --ag-selected-row-background-color: rgba(59,130,246,0.12) !important;
+  --ag-font-family: var(--font) !important;
+  --ag-font-size: 12px !important;
+}
+
+/* ---- Funil / Charts container ---------------------------- */
+.chart-container {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 4px;
+  overflow: hidden;
+}
+
+/* ---- Login page ------------------------------------------ */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  padding: 40px 36px;
+}
+
+.login-logo {
+  display: block;
+  margin: 0 auto 24px;
+  max-height: 48px;
+  width: auto;
+}
+
+.login-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+
+.login-subtitle {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin: 0 0 28px;
+}
+
+.login-input {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 13px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  outline: none;
+  transition: border-color 0.15s;
+  box-sizing: border-box;
+}
+.login-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.login-input::placeholder { color: var(--text-muted); }
+
+.btn-login {
+  width: 100%;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px;
+  cursor: pointer;
+  margin-top: 4px;
+  transition: opacity 0.15s, transform 0.1s;
+}
+.btn-login:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn-login:active { transform: translateY(0); }
+
+.login-error {
+  font-size: 12px;
+  color: var(--accent-red);
+  text-align: center;
+  margin-top: 10px;
+  min-height: 18px;
+}
+
+/* ---- Admin panel ----------------------------------------- */
+.admin-panel {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin: 16px 28px;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+.user-row:last-child { border-bottom: none; }
+
+/* ---- Responsividade -------------------------------------- */
+@media (max-width: 1024px) {
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .kpi-row {
+    flex-wrap: wrap;
+  }
+  .kpi-card {
+    min-width: 130px;
+  }
+  .filters-bar {
+    padding: 12px 16px;
+    gap: 10px;
+  }
+  .navbar-glass {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-group {
+    width: 100%;
+  }
+  .kpi-card {
+    min-width: calc(50% - 6px);
+    flex: none;
+  }
+  .kpi-value {
+    font-size: 18px;
+  }
+  .navbar-title {
+    font-size: 13px;
+  }
+  .navbar-subtitle {
+    display: none;
+  }
+  .ranking-table {
+    font-size: 11px;
+  }
+  .charts-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
