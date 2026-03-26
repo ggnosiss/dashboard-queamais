@@ -15,31 +15,53 @@ def build_channel_chart(establishments: list[dict]) -> dcc.Graph:
     fig.add_trace(go.Bar(
         name="Meta Ads",
         x=names, y=meta_vals,
-        marker_color="#1877F2",
+        marker=dict(
+            color="rgba(59,130,246,0.75)",
+            line=dict(color="rgba(59,130,246,0.9)", width=1),
+        ),
         text=[f"R$ {v:,.0f}".replace(",", ".") for v in meta_vals],
         textposition="inside",
-        textfont=dict(size=10),
+        textfont=dict(size=9, color="rgba(255,255,255,0.7)"),
     ))
     fig.add_trace(go.Bar(
         name="Google Ads",
         x=names, y=google_vals,
-        marker_color="#EA4335",
+        marker=dict(
+            color="rgba(249,115,22,0.75)",
+            line=dict(color="rgba(249,115,22,0.9)", width=1),
+        ),
         text=[f"R$ {v:,.0f}".replace(",", ".") for v in google_vals],
         textposition="inside",
-        textfont=dict(size=10),
+        textfont=dict(size=9, color="rgba(255,255,255,0.7)"),
     ))
 
     fig.update_layout(
         barmode="stack",
-        paper_bgcolor="#0D0D1A",
-        plot_bgcolor="#131324",
-        font=dict(color="#DDD", family="Inter, sans-serif"),
-        legend=dict(orientation="h", y=1.1, bgcolor="rgba(0,0,0,0)"),
-        margin=dict(l=10, r=10, t=40, b=50),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#94a3b8", family="Inter, sans-serif", size=11),
+        legend=dict(
+            orientation="h", y=1.12, bgcolor="rgba(0,0,0,0)",
+            font=dict(size=11, color="#94a3b8"),
+        ),
+        margin=dict(l=10, r=10, t=44, b=50),
         height=280,
-        xaxis=dict(showgrid=False, color="#555", tickangle=-30),
-        yaxis=dict(showgrid=True, gridcolor="#1F1F3A", tickprefix="R$ ", color="#aaa"),
-        title=dict(text="Investimento por Canal e Casa", font=dict(size=12, color="#aaa"), x=0.5),
+        xaxis=dict(
+            showgrid=False, zeroline=False,
+            color="#4a5568", tickangle=-30,
+            tickfont=dict(size=10),
+        ),
+        yaxis=dict(
+            showgrid=True, gridcolor="rgba(255,255,255,0.04)",
+            zeroline=False, tickprefix="R$ ",
+            color="#4a5568", tickfont=dict(size=10),
+        ),
+        bargap=0.25,
+        hoverlabel=dict(
+            bgcolor="rgba(15,23,42,0.9)",
+            bordercolor="rgba(255,255,255,0.1)",
+            font=dict(color="#eef2f7", size=12),
+        ),
     )
 
     return dcc.Graph(figure=fig, config={"displayModeBar": False}, style={"width": "100%"})

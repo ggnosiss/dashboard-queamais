@@ -7,6 +7,7 @@ from app.seed import seed_establishments, seed_admin_user
 from app.scheduler import setup_scheduler
 from app.routers import establishments, erp, ads, dashboard
 from app.routers import auth as auth_router
+from app.routers import ga4 as ga4_router
 
 
 @asynccontextmanager
@@ -38,6 +39,7 @@ app.include_router(auth_router.router)
 app.include_router(establishments.router)
 app.include_router(erp.router)
 app.include_router(ads.router)
+app.include_router(ga4_router.router)
 app.include_router(dashboard.router)
 
 

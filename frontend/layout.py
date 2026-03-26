@@ -119,9 +119,35 @@ def build_dashboard_layout(user_name: str = "", user_role: str = "") -> html.Div
                         ],
                     ),
 
-                    # KPIs ERP (resultado)
+                    # Atribuição por Canal (GA4)
                     html.Div([
-                        html.Div("Resultado (ERP)", className="section-header"),
+                        html.Div("Atribuição por Canal", className="section-header"),
+                        html.Div(
+                            style={"display": "grid", "gridTemplateColumns": "1fr 1fr", "gap": "16px"},
+                            className="charts-grid",
+                            children=[
+                                html.Div([
+                                    html.Div("Reservas por Canal", style={"fontSize": "11px", "color": "#555", "textTransform": "uppercase", "letterSpacing": "0.5px", "marginBottom": "8px"}),
+                                    html.Div(id="attribution-bar-chart", className="chart-container"),
+                                ]),
+                                html.Div([
+                                    html.Div("Sessões × Reservas por Canal", style={"fontSize": "11px", "color": "#555", "textTransform": "uppercase", "letterSpacing": "0.5px", "marginBottom": "8px"}),
+                                    html.Div(id="channel-funnel-chart", className="chart-container"),
+                                ]),
+                            ],
+                        ),
+                        html.Div(
+                            style={"marginTop": "16px"},
+                            children=[
+                                html.Div("Eficiência: Investimento × Reservas (Canais Pagos)", style={"fontSize": "11px", "color": "#555", "textTransform": "uppercase", "letterSpacing": "0.5px", "marginBottom": "8px"}),
+                                html.Div(id="spend-vs-reservations-chart", className="chart-container"),
+                            ],
+                        ),
+                    ]),
+
+                    # KPIs ERP + Performance
+                    html.Div([
+                        html.Div("Resultado & Eficiência", className="section-header"),
                         html.Div(id="kpi-erp-row",
                                  style={"display": "flex", "gap": "10px", "flexWrap": "wrap"},
                                  className="kpi-row"),
@@ -140,6 +166,7 @@ def build_dashboard_layout(user_name: str = "", user_role: str = "") -> html.Div
 
             # Stores e timers
             dcc.Store(id="dashboard-data"),
+            dcc.Store(id="attribution-data"),
             dcc.Store(id="establishments-list"),
             dcc.Interval(id="auto-refresh", interval=5 * 60 * 1000, n_intervals=0),
         ],

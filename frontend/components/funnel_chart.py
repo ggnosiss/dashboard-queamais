@@ -12,8 +12,8 @@ def build_funnel_chart(funnel_steps: list[dict]) -> dcc.Graph:
     colors = []
     text = []
 
-    COLOR_AVAILABLE = "#1E88E5"
-    COLOR_LOCKED = "#333355"
+    COLOR_AVAILABLE = "rgba(249,115,22,0.75)"
+    COLOR_LOCKED = "rgba(255,255,255,0.06)"
 
     for step in funnel_steps:
         labels.append(step["label"])
@@ -45,12 +45,21 @@ def build_funnel_chart(funnel_steps: list[dict]) -> dcc.Graph:
     )
 
     fig.update_layout(
-        paper_bgcolor="#0D0D1A",
-        plot_bgcolor="#0D0D1A",
-        font=dict(color="#DDD", family="Inter, sans-serif"),
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#94a3b8", family="Inter, sans-serif", size=11),
         margin=dict(l=20, r=20, t=30, b=20),
         height=320,
-        title=dict(text="Funil: Investimento → Reserva → Faturamento", font=dict(size=13, color="#aaa"), x=0.5),
+        title=dict(
+            text="Funil: Investimento → Reserva → Faturamento",
+            font=dict(size=12, color="#4a5568"),
+            x=0.5,
+        ),
+        hoverlabel=dict(
+            bgcolor="rgba(15,23,42,0.9)",
+            bordercolor="rgba(255,255,255,0.1)",
+            font=dict(color="#eef2f7", size=12),
+        ),
     )
 
     return dcc.Graph(figure=fig, config={"displayModeBar": False}, style={"width": "100%"})
